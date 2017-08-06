@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        %article
+          %h2= @note.title
+          .row
+            .group1.col-sm-6.col-md-6
+              %span.glyphicon.glyphicon-pencil
+              = @note.user.name
+            .group2.col-sm-6.col-md-6{style: "text-align: right;"}
+              %span.glyphicon.glyphicon-user
+              = "ToDo"
+              %span.glyphicon.glyphicon-time
+              = @note.created_at.strftime("%b %d, %Y")
+          %hr
+          %p.lead{style: "text-align: justify;"}= @note.body
+          %hr
+        - if false && (acc = current_account).present? && acc.accountable_id == @note.user_id
+          = button_to "Edit note", edit_note_path(@note), method: 'get', class: "btn btn-primary"

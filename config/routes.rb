@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root to: 'notes#drafted'
+
+  resources :notes, except: [:index] do
+    collection do
+      get :drafted
+      get :shared
+    end
+  end
 end
