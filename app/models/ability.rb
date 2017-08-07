@@ -28,5 +28,10 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+    can :create, Note
+    can :manage, Note, id: Note.with_role(%i[owner editor], user).pluck(:id)
+    cannot :destroy, Note, id: Note.with_role(:editor, user).pluck(:id)
+    can :read, Note, id: Note.with_role(:reader, user).pluck(:id)
   end
 end

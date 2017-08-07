@@ -1,0 +1,13 @@
+- User::ROLES.map do |k,v|
+  - if k.eql?(:owner)
+    %h4.page-header= owner_text(note)
+  - elsif (users = User.with_role(k, note)).present?
+    %h4.page-header= "Following users have #{v} access to this note."
+    %ul.list-group
+      - users.each do |user|
+        .row.col-md-12
+          %li.list-group-item
+            .row{style: 'padding:0px 10px'}
+              = user.name
+              -if can?(:remove_access, note)
+                = link_to "<span class='glyphicon glyphicon-trash'></span>".html_safe, remove_access_note_path(note, email: user.email, role: k), method: :delete, style: 'color:red;float:right'

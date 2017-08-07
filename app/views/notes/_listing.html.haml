@@ -6,8 +6,10 @@
       %span.glyphicon.glyphicon-pencil
       = note.user.name
     .group2.col-sm-6.col-md-6{style: "text-align: right;"}
-      %span.glyphicon.glyphicon-user
-      = 'ToDo'
+      %span.glyphicon.glyphicon-calendar
+      = note.created_at.strftime("%b %d, %Y")
+      %span.glyphicon.glyphicon-share
+      = Note.with_role([:editor, :reader], note).count
   %hr
   %p.lead{style: "text-align: justify;"}= truncate(note.body, length: 250)
   %p.text-right
