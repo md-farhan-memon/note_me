@@ -12,8 +12,7 @@ module NotesHelper
   end
 
   def owner_text(note)
-    user = User.with_role(:owner, note).first
-    name = if user.eql?(current_user)
+    name = if (user = User.with_role(:owner, note).first).eql?(current_user)
              'You are'
            else
              "#{user.name} is"

@@ -9,11 +9,11 @@ class Note < ApplicationRecord
 
   scope :drafted, -> { where(shared: false) }
   scope :shared, -> { where(shared: true) }
-  scope :date_sorted, -> { order('created_at desc') }
+  scope :recently_modified, -> { order('updated_at desc') }
 
   after_create :assign_owner
 
-  def tags_list=value
+  def tags_list=(value)
     value.downcase.split(',').map(&:squish).uniq.each do |tag|
       next unless tag.present?
       tags << Tag.where(name: tag).first_or_create

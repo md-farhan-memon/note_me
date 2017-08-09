@@ -1,3 +1,4 @@
+- provide(:title, title)
 - notes.each do |note|
   %h2
     %a{href: note_path(note)}= note.title
@@ -5,13 +6,13 @@
     .group1.col-sm-6.col-md-6
       %span.glyphicon.glyphicon-pencil
       = note.user.name
-    .group2.col-sm-6.col-md-6{style: "text-align: right;"}
+    .group2.col-sm-6.col-md-6{style: 'text-align: right;'}
       %span.glyphicon.glyphicon-calendar
-      = note.created_at.strftime("%b %d, %Y")
+      = note.created_at.strftime('%b %d, %Y')
       %span.glyphicon.glyphicon-share
       = Note.with_role([:editor, :reader], note).count
   %hr
-  %p.lead{style: "text-align: justify;"}= truncate(note.body, length: 250)
+  %p.lead{style: 'text-align: justify;'}= truncate(note.body, length: 250)
   %p.text-right
     %a{href: note_path(note)}
       continue reading...

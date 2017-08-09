@@ -1,8 +1,8 @@
 class NotesController < ApplicationController
   include NotesHelper
   load_and_authorize_resource
-  before_action :set_sharing_status, only: %i[create update]
-  before_action :initialize_note, only: %i[new create]
+  before_action :set_sharing_status, only: %i(create update)
+  before_action :initialize_note, only: %i(new create)
 
   def create
     @note.assign_attributes(note_params.except(:tags_list))
@@ -24,11 +24,11 @@ class NotesController < ApplicationController
   end
 
   def drafted
-    @notes = current_user.notes.drafted.date_sorted.page(params[:page] || 1)
+    @notes = current_user.notes.drafted.recently_modified.page(params[:page] || 1)
   end
 
   def shared
-    @notes = current_user.notes.shared.date_sorted.page(params[:page] || 1)
+    @notes = current_user.notes.shared.recently_modified.page(params[:page] || 1)
   end
 
   def share
@@ -54,16 +54,15 @@ class NotesController < ApplicationController
 
   def destroy
     if @note.destroy
-      flash[:notice] = 'Successfully deleted Note!'
-      redirect_to root_path
+      redirect_to root_path, flash: { error: 'Successfully deleted Note!' }
     else
-      flash[:alert] = 'Error updating post!'
-      redirect_to edit_note_path(@note)
+      redirect_to edit_note_path(@note), flash: { error: 'Error Deleting post!' }
     end
   end
 
   def shared_with_me
-    @notes = Note.with_roles(User::ROLES.except(:owner).keys, current_user).page(params[:page] || 1)
+    @notes = Note.with_roles(User::ROLES.except(:owner).keys, current_user)
+                 .page(params[:page] || 1)
   end
 
   private

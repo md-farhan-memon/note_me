@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %meta{ content: "text/html; charset=UTF-8; width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0", "http-equiv" => "Content-Type", name: 'viewport' }
+    %meta{ content: 'text/html; charset=UTF-8; width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0', 'http-equiv' => 'Content-Type', name: 'viewport' }
     %title= full_title(yield(:title))
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -10,6 +10,6 @@
     = render partial: 'layouts/header'
     .container
       - flash.each do |name, msg|
-        = content_tag :div, msg, class: "alert alert-info"
+        = content_tag :div, msg, class: 'alert alert-info'
       = yield
     = render partial: 'layouts/footer'

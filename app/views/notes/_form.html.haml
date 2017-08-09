@@ -4,7 +4,7 @@
       - if @note.errors.any?
         #error_explanation
           %h2
-            = "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"
+            = "#{pluralize(@note.errors.count, 'error')} prohibited this note from being saved:"
           %ul
             - @note.errors.full_messages.each do |msg|
               %li
@@ -13,19 +13,19 @@
       = f.text_field :title, autofocus: true, class: 'form-control', required: true
       %br
       = f.label :body
-      = f.text_area :body, autocomplete: "off", rows: 20, class: 'form-control', required: true
+      = f.text_area :body, autocomplete: 'off', rows: 20, class: 'form-control', required: true
       %br
       = f.label :tags_list
       %em
         (Enter comma seperated tags.)
       = f.text_field :tags_list, class: 'form-control'
       %br
-      = f.submit "Save & Share", class: 'btn btn-success'
-      = f.submit "Draft", class: "btn btn-warning"
+      = f.submit 'Save & Share', class: 'btn btn-success'
+      = f.submit 'Draft', class: "btn btn-warning"
     %br
     - if can? :destroy, @note
       = form_for(@note, html: { method: :delete }) do |f|
-        = f.submit 'Delete', method: 'delete', class: "btn btn-danger"
+        = f.submit 'Delete', method: 'delete', class: 'btn btn-danger'
     - if @note.persisted? && @note.shared? && can?(:share, @note)
       %br
       .row
@@ -35,6 +35,6 @@
           .col-md-4
             = f.select :role, User::ROLES.except(:owner).map{ |k,v| [v, k] }, {}, class: 'form-control'
           .col-md-2
-            = f.submit "Share", class: "btn btn-success", style: 'float:right'
+            = f.submit "Share", class: 'btn btn-success', style: 'float:right'
       .row.col-md-12
         = render  partial: 'shared_users', locals: {note: @note}

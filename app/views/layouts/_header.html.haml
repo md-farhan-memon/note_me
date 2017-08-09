@@ -1,9 +1,9 @@
-%header.navbar.navbar-default.navbar-fixed-top{role: "navigation"}
+%header.navbar.navbar-default.navbar-fixed-top{role: 'navigation'}
   .container
     .row
       .col-md-8.col-md-offset-2
         .navbar-header
-          %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", type: "button"}
+          %button.navbar-toggle{'data-target' => '.navbar-collapse', 'data-toggle' => 'collapse', type: 'button'}
             %span.sr-only Toggle navigation
             %span.icon-bar
             %span.icon-bar
@@ -13,29 +13,29 @@
           %ul.nav.navbar-nav.navbar-right
             - if current_user.present?
               %li
-                = link_to "New Note", new_note_path
+                = link_to 'New Note', new_note_path
               %li.dropdown
-                %a.dropdown-toggle{"data-toggle" => "dropdown", href: ''}
+                %a.dropdown-toggle{'data-toggle' => 'dropdown', href: ''}
                   My Notes
                   %b.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to "Drafted Notes", drafted_notes_path
+                    = link_to 'Drafted Notes', drafted_notes_path
                   %li
-                    = link_to "Shared Notes", shared_notes_path
+                    = link_to 'Shared Notes', shared_notes_path
                   %li
-                    = link_to "Shared with me", shared_with_me_notes_path
+                    = link_to 'Shared with me', shared_with_me_notes_path
                 %li.dropdown
-                  %a.dropdown-toggle{"data-toggle" => "dropdown", href: ''}
+                  %a.dropdown-toggle{'data-toggle' => 'dropdown', href: ''}
                     Settings
                     %b.caret
                   %ul.dropdown-menu
                     %li
-                      = link_to "Change Password", edit_user_registration_path
+                      = link_to 'Change Password', edit_user_registration_path
                     %li
-                      = link_to "LogOut", destroy_user_session_path, method: "delete"
+                      = link_to 'LogOut', destroy_user_session_path, method: 'delete'
             - else
               %li
-                = link_to "LogIn", new_user_session_path
+                = link_to 'LogIn', new_user_session_path
               %li
-                = link_to "SignUp", new_user_registration_path
+                = link_to 'SignUp', new_user_registration_path
