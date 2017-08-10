@@ -36,7 +36,9 @@ gem 'rolify'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'bullet'
   gem 'byebug', platform: :mri
+  gem 'rack-mini-profiler'
 end
 
 group :development do

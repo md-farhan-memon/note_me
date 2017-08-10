@@ -1,21 +1,13 @@
 module NotesHelper
-  def redirection_path
-    if note_params[:shared]
-      edit_note_path(@note)
-    else
-      note_path(@note)
-    end
-  end
-
-  def note_shared?
+  def note_shareable?
     params[:commit] == 'Save & Share'
   end
 
   def owner_text(note)
-    name = if (user = User.with_role(:owner, note).first).eql?(current_user)
+    name = if current_user.has_role?(:owner, note)
              'You are'
            else
-             "#{user.name} is"
+             "#{note.user.name} is"
            end
     "#{name} the owner of this Note."
   end

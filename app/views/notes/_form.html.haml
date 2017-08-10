@@ -21,20 +21,9 @@
       = f.text_field :tags_list, class: 'form-control'
       %br
       = f.submit 'Save & Share', class: 'btn btn-success'
-      = f.submit 'Draft', class: "btn btn-warning"
+      - if (new = @note.new_record?) || can?(:draft, @note)
+        = f.submit (new ? 'Draft' : 'Archive'), class: 'btn btn-warning'
     %br
     - if can? :destroy, @note
       = form_for(@note, html: { method: :delete }) do |f|
         = f.submit 'Delete', method: 'delete', class: 'btn btn-danger'
-    - if @note.persisted? && @note.shared? && can?(:share, @note)
-      %br
-      .row
-        = form_for(:share, url: share_note_path(@note)) do |f|
-          .col-md-6
-            = f.email_field :email, class: 'form-control', required: true, placeholder: "Enter Email.."
-          .col-md-4
-            = f.select :role, User::ROLES.except(:owner).map{ |k,v| [v, k] }, {}, class: 'form-control'
-          .col-md-2
-            = f.submit "Share", class: 'btn btn-success', style: 'float:right'
-      .row.col-md-12
-        = render  partial: 'shared_users', locals: {note: @note}

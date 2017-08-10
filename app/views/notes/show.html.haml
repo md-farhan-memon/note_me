@@ -16,10 +16,19 @@
               = Note.with_role([:editor, :reader], @note).count
           %hr
           %p.lead{style: "text-align: justify;"}= @note.body
-          .row
-            .col-md-10.col-md-offset-1
-              %span.glyphicon.glyphicon-tags
-              = @note.tags.pluck(:name).join(',')
+          %span.glyphicon.glyphicon-tags
+            = @note.tags.pluck(:name).join(', ')
           %hr
-        - if can? :update, @note
-          = button_to "Edit note", edit_note_path(@note), method: 'get', class: "btn btn-primary"
+          - if can? :update, @note
+            = button_to "Edit note", edit_note_path(@note), method: 'get', class: "btn btn-primary"
+            %hr
+          = render partial: 'shared_users', locals: {note: @note}
+          - if @note.shared? && can?(:share, @note)
+            .row
+              = form_for(:share, url: share_note_path(@note)) do |f|
+                .col-md-6
+                  = f.email_field :email, class: 'form-control', required: true, placeholder: "Enter Email.."
+                .col-md-4
+                  = f.select :role, User::ROLES.except(:owner).map{ |k,v| [v, k] }, {}, class: 'form-control'
+                .col-md-2
+                  = f.submit "Share", class: 'btn btn-success', style: 'float:right'

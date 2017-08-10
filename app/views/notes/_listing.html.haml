@@ -13,6 +13,8 @@
       = Note.with_role([:editor, :reader], note).count
   %hr
   %p.lead{style: 'text-align: justify;'}= truncate(note.body, length: 250)
+  %span.glyphicon.glyphicon-tags
+    = note.tags_list
   %p.text-right
     %a{href: note_path(note)}
       continue reading...

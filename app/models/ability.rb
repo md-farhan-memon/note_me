@@ -30,8 +30,10 @@ class Ability
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
 
     can :create, Note
-    can :manage, Note, id: Note.with_role(%i(owner editor), user).pluck(:id)
-    cannot :destroy, Note, id: Note.with_role(:editor, user).pluck(:id)
-    can :read, Note, id: Note.with_role(:reader, user).pluck(:id)
+    can :manage, Note, id: Note.with_role(:owner, user).pluck(:id)
+    can :manage, Note, shared: true, id: Note.with_role(:editor, user).pluck(:id)
+    can :read, Note, id: Note.with_role(%i[reader editor], user).pluck(:id)
+    cannot :draft, Note, id: Note.with_role(%i[reader editor], user).pluck(:id)
+    cannot :destroy, Note, id: Note.with_role(%i[editor user]).pluck(:id)
   end
 end

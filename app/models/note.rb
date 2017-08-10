@@ -21,7 +21,7 @@ class Note < ApplicationRecord
   end
 
   def tags_list
-    tags.pluck(:name).join(',')
+    tags.pluck(:name).join(', ')
   end
 
   def update_tags(list)

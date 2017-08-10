@@ -1,14 +1,14 @@
 class NotesController < ApplicationController
   include NotesHelper
   load_and_authorize_resource
-  before_action :set_sharing_status, only: %i(create update)
-  before_action :initialize_note, only: %i(new create)
+  before_action :set_sharing_status, only: %i[create update]
+  before_action :initialize_note, only: %i[new create]
 
   def create
     @note.assign_attributes(note_params.except(:tags_list))
     if @note.save
       @note.tags_list = note_params[:tags_list]
-      redirect_to redirection_path
+      redirect_to note_path(@note)
     else
       render :new
     end
@@ -17,7 +17,7 @@ class NotesController < ApplicationController
   def update
     if @note.update_attributes(note_params.except(:tags_list))
       @note.update_tags(note_params[:tags_list])
-      redirect_to redirection_path
+      redirect_to note_path(@note)
     else
       render :edit
     end
@@ -38,7 +38,7 @@ class NotesController < ApplicationController
           else
             "#{share_params[:email]} is not a valid user."
           end
-    redirect_to edit_note_path(@note), flash: { error: msg }
+    redirect_to note_path(@note), flash: { notice: msg }
   end
 
   def remove_access
@@ -49,7 +49,7 @@ class NotesController < ApplicationController
           else
             "Couldn't find user"
           end
-    redirect_to edit_note_path(@note), flash: { error: msg }
+    redirect_to note_path(@note), flash: { error: msg }
   end
 
   def destroy
@@ -61,7 +61,7 @@ class NotesController < ApplicationController
   end
 
   def shared_with_me
-    @notes = Note.with_roles(User::ROLES.except(:owner).keys, current_user)
+    @notes = Note.includes(:user).with_roles(User::ROLES.except(:owner).keys, current_user)
                  .page(params[:page] || 1)
   end
 
@@ -76,7 +76,7 @@ class NotesController < ApplicationController
   end
 
   def set_sharing_status
-    params[:note][:shared] = note_shared?
+    params[:note][:shared] = note_shareable?
   end
 
   def initialize_note
