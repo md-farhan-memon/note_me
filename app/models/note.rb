@@ -24,6 +24,10 @@ class Note < ApplicationRecord
     tags.pluck(:name).join(', ')
   end
 
+  def tags_list_numbered
+    tags.join(:notes).map{ |tag| "#{tag.name}(#{tag.posts.count})" }.join(', ')
+  end
+
   def update_tags(list)
   end
 

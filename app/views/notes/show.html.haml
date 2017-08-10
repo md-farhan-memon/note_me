@@ -17,7 +17,7 @@
           %hr
           %p.lead{style: "text-align: justify;"}= @note.body
           %span.glyphicon.glyphicon-tags
-            = @note.tags.pluck(:name).join(', ')
+            = @note.tags_list_numbered
           %hr
           - if can? :update, @note
             = button_to "Edit note", edit_note_path(@note), method: 'get', class: "btn btn-primary"
