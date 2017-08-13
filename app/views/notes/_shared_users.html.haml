@@ -4,11 +4,11 @@
   - elsif (users = User.with_role(k, note)).present?
     .panel-group
       .panel.panel-default
-        %a{'data-toggle' => 'collapse', href: '#user-list', style: 'text-decoration:none'}
+        %a{'data-toggle' => 'collapse', href: "#user-list-#{k}", style: 'text-decoration:none'}
           .panel-heading
             .panel-title
               = "Following users have #{v} access to this note."
-        #user-list.panel-collapse.collapse
+        .panel-collapse.collapse{id: "user-list-#{k}"}
           %ul.list-group
             - users.each do |user|
               %li.list-group-item

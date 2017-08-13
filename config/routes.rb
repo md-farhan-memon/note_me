@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'notes#drafted'
+  root to: 'notes#home'
   devise_for :users
 
   resources :notes, except: [:index] do

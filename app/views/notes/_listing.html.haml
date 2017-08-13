@@ -10,7 +10,7 @@
       %span.glyphicon.glyphicon-calendar
       = note.created_at.strftime('%b %d, %Y')
       %span.glyphicon.glyphicon-share
-      = Note.with_role([:editor, :reader], note).count
+      = note.share_count
   %hr
   %p.lead{style: 'text-align: justify;'}= truncate(note.body, length: 250)
   %span.glyphicon.glyphicon-tags

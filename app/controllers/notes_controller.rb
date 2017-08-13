@@ -1,13 +1,18 @@
 class NotesController < ApplicationController
   include NotesHelper
+  before_action :set_note, only: %i[show edit]
   load_and_authorize_resource
-  before_action :set_sharing_status, only: %i[create update]
+  skip_authorize_resource only: %i[home new create drafted shared shared_with_me]
   before_action :initialize_note, only: %i[new create]
+  before_action :set_sharing_status, only: %i[create update]
+
+  def home
+    redirect_to drafted_notes_path if current_user.present?
+  end
 
   def create
-    @note.assign_attributes(note_params.except(:tags_list))
+    @note.assign_attributes(note_params)
     if @note.save
-      @note.tags_list = note_params[:tags_list]
       redirect_to note_path(@note)
     else
       render :new
@@ -32,11 +37,10 @@ class NotesController < ApplicationController
   end
 
   def share
-    msg = if valid_share? && (role = @user.add_role(share_params[:role], @note)).persisted?
-            role.update_attribute(:provider_id, current_user.id)
-            "#{@user.name} successfully added."
+    msg = if @note.added_role_to_user?(share_params, current_user.id)
+            "#{share_params[:email]} successfully added."
           else
-            "#{share_params[:email]} is not a valid user."
+            "#{share_params[:email]} could not be added."
           end
     redirect_to note_path(@note), flash: { notice: msg }
   end
@@ -44,7 +48,7 @@ class NotesController < ApplicationController
   def remove_access
     user = User.find_by_email(params[:email])
     msg = if user.present?
-            user.remove_role(params[:role], @note)
+            @note.remove_role_from_user(user, params[:role])
             "#{user.name} has been removed."
           else
             "Couldn't find user"
@@ -81,5 +85,13 @@ class NotesController < ApplicationController
 
   def initialize_note
     @note = current_user.notes.new
+  end
+
+  def set_current_note
+    @note = Note.includes(:user).find(params[:id])
+  end
+
+  def set_note
+    @note = Note.includes(:tags).find(params[:id])
   end
 end

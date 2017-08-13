@@ -33,12 +33,12 @@ gem 'will_paginate-bootstrap'
 # User Roles and Authorization
 gem 'cancancan'
 gem 'rolify'
+# AR support for CPK
+gem 'composite_primary_keys', '=9.0.7'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'bullet'
   gem 'byebug', platform: :mri
-  gem 'rack-mini-profiler'
 end
 
 group :development do

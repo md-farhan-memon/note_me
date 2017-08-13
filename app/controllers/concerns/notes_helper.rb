@@ -11,9 +11,4 @@ module NotesHelper
            end
     "#{name} the owner of this Note."
   end
-
-  def valid_share?
-    (@user = User.find_by_email(share_params[:email])).present? &&
-      !current_user.eql?(@user)
-  end
 end

@@ -47,9 +47,6 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.3)
-    bullet (5.6.1)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
     cancancan (2.0.0)
     coffee-rails (4.2.2)
@@ -59,6 +56,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    composite_primary_keys (9.0.7)
+      activerecord (~> 5.0.0)
     concurrent-ruby (1.0.5)
     devise (4.3.0)
       bcrypt (~> 3.0)
@@ -109,8 +108,6 @@ GEM
     pg (0.21.0)
     puma (3.9.1)
     rack (2.0.3)
-    rack-mini-profiler (0.10.5)
-      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.5)
@@ -180,7 +177,6 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
-    uniform_notifier (1.10.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.5.1)
@@ -200,17 +196,16 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
-  bullet
   byebug
   cancancan
   coffee-rails (~> 4.2)
+  composite_primary_keys (= 9.0.7)
   devise
   haml-rails (~> 0.9)
   jquery-rails
   listen (~> 3.0.5)
   pg (~> 0.18)
   puma (~> 3.0)
-  rack-mini-profiler
   rails (~> 5.0.2)
   rolify
   sass-rails (~> 5.0)
