@@ -1,0 +1,4 @@
+%article
+  = render partial: 'listing', locals: {notes: @notes, title: 'My Drafts'}
+%ul.pager
+  = will_paginate @notes, renderer: BootstrapPagination::Rails

@@ -1,0 +1,34 @@
+- provide(:title, @note.title)
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        %article
+          %h2= @note.title
+          .row
+            .group1.col-sm-6.col-md-6
+              %span.glyphicon.glyphicon-pencil
+              = @note.user.name
+            .group2.col-sm-6.col-md-6{style: "text-align: right;"}
+              %span.glyphicon.glyphicon-calendar
+              = @note.created_at.strftime("%b %d, %Y")
+              %span.glyphicon.glyphicon-share
+              = @note.share_count
+          %hr
+          %p.lead{style: "text-align: justify;"}= @note.body
+          %span.glyphicon.glyphicon-tags
+            = @note.tags_list_numbered
+          %hr
+          - if can? :update, @note
+            = button_to "Edit note", edit_note_path(@note), method: 'get', class: "btn btn-primary"
+            %hr
+          - if @note.shared? && can?(:share, @note)
+            .row
+              = form_for(:share, url: share_note_path(@note)) do |f|
+                .col-md-6
+                  = f.email_field :email, class: 'form-control', required: true, placeholder: "Enter Email.."
+                .col-md-4
+                  = f.select :role, User::ROLES.except(:owner).map{ |k,v| [v, k] }, {}, class: 'form-control'
+                .col-md-2
+                  = f.submit "Share", class: 'btn btn-success', style: 'float:right'
+          = render partial: 'shared_users', locals: {note: @note}
